@@ -4,22 +4,52 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>إعلان في سوق العز</title>
-  <meta name="description" content="غنم وماعز وإبل وأبقار في دول الخليج. افتح الإعلان في تطبيق سوق العز.">
+  <meta name="description" content="إعلان حلال في سوق العز: غنم وماعز وإبل وأبقار في دول الخليج.">
+  <meta name="theme-color" content="#133A2C">
   <meta property="og:title" content="إعلان في سوق العز">
   <meta property="og:description" content="غنم وماعز وإبل وأبقار في دول الخليج">
   <meta property="og:image" content="assets/icon.png">
   <link rel="icon" href="assets/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=Noto+Kufi+Arabic:wght@500;700;800&display=swap">
   <link rel="stylesheet" href="assets/site.css">
   <script src="assets/config.js"></script>
 </head>
 <body>
-  <main class="wrap">
-    <a class="brand" href="./"><img src="assets/icon.png" alt="">سوق العز</a>
-    <div id="app"><p class="state">جارٍ تحميل الإعلان…</p></div>
+  <header class="topbar">
+    <div class="container">
+      <a class="logo" href="./"><img src="assets/icon.png" alt=""><span>سوق العز</span></a>
+      <nav class="nav" aria-label="القائمة">
+        <a href="./">الرئيسية</a>
+        <a href="./#how">كيف يشتغل</a>
+        <a href="./#faq">أسئلة</a>
+      </nav>
+      <a class="btn gold sm" data-store>حمّل التطبيق</a>
+    </div>
+  </header>
+  <div class="sadu thin" aria-hidden="true"></div>
+
+  <main class="container" id="app">
+    <div class="ad-state"><p>جارٍ تحميل الإعلان…</p></div>
   </main>
+
+  <div class="sadu thin" aria-hidden="true"></div>
+  <footer class="footer">
+    <div class="container">
+      <div>
+        <a class="logo" href="./"><img src="assets/icon.png" alt=""><span>سوق العز</span></a>
+        <p style="margin-top:12px">للتواصل: <span data-contact>…</span></p>
+      </div>
+      <nav aria-label="روابط">
+        <a href="./">الرئيسية</a>
+        <a href="terms.html">شروط الاستخدام</a>
+        <a href="privacy.html">سياسة الخصوصية</a>
+        <a href="commission.html">سياسة العمولة</a>
+      </nav>
+      <p class="small">© سوق العز. التطبيق وسيط عرض، وليس طرفًا في البيع.</p>
+    </div>
+  </footer>
 
   <script>
     (function () {
@@ -27,6 +57,7 @@
       var app = document.getElementById('app');
       var id = Number(new URLSearchParams(location.search).get('id'));
       var SYMBOLS = { SAR: 'ر.س', AED: 'د.إ', KWD: 'د.ك', QAR: 'ر.ق', BHD: 'د.ب', OMR: 'ر.ع' };
+      var GENDER = { male: 'ذكر', female: 'أنثى', mixed: 'مختلط' };
 
       function el(tag, cls, text) {
         var n = document.createElement(tag);
@@ -36,93 +67,141 @@
       }
 
       function openAppUrl(adId) {
-        var ua = navigator.userAgent || '';
-        if (/android/i.test(ua)) {
+        var fallback = S.storeLive ? S.storeUrl : location.origin + location.pathname.replace(/ad\.html$/, '');
+        if (/android/i.test(navigator.userAgent || '')) {
           return 'intent://ad/' + adId + '#Intent;scheme=' + S.scheme + ';package=' + S.androidPackage +
-            ';S.browser_fallback_url=' + encodeURIComponent(S.storeUrl) + ';end';
+            ';S.browser_fallback_url=' + encodeURIComponent(fallback) + ';end';
         }
         return S.scheme + '://ad/' + adId;
-      }
-
-      function price(ad) {
-        if (ad.price == null) return 'على السوم';
-        var n = Number(ad.price).toLocaleString('en-US', { maximumFractionDigits: 2 });
-        return n + ' ' + (SYMBOLS[ad.currency_code] || ad.currency_code) + (ad.is_negotiable ? ' · قابل للتفاوض' : '');
       }
 
       function photoUrl(path) {
         return S.supabaseUrl + '/storage/v1/object/public/ad-media/' + path.split('/').map(encodeURIComponent).join('/');
       }
 
-      function showMessage(text) {
-        app.replaceChildren(el('p', 'state', text), actions(null));
+      function storeButton(cls) {
+        var a = el('a', 'btn ' + cls, 'حمّل التطبيق');
+        a.setAttribute('data-store', '');
+        return a;
       }
 
-      function actions(adId) {
-        var box = el('div', 'actions');
-        if (adId) {
-          var open = el('a', 'btn primary', 'افتح الإعلان في التطبيق');
-          open.href = openAppUrl(adId);
-          box.appendChild(open);
+      function showMessage(text) {
+        var box = el('div', 'ad-state');
+        box.appendChild(el('p', null, text));
+        var home = el('a', 'btn outline', 'تصفّح سوق العز');
+        home.href = './';
+        box.appendChild(home);
+        app.replaceChildren(box);
+      }
+
+      function gallery(ad) {
+        var wrap = el('div', 'gallery');
+        var media = (ad.media || []).slice().sort(function (a, b) { return a.sort_order - b.sort_order; });
+        if (!media.length) {
+          wrap.appendChild(el('div', 'main empty', 'لا توجد صور لهذا الإعلان'));
+          return wrap;
         }
-        var store = el('a', 'btn ' + (adId ? 'secondary' : 'primary'), 'حمّل تطبيق سوق العز');
-        store.href = S.storeUrl;
-        box.appendChild(store);
+        var main = el('img', 'main');
+        main.src = photoUrl(media[0].storage_path);
+        main.alt = ad.title;
+        wrap.appendChild(main);
+        if (media.length > 1) {
+          var thumbs = el('div', 'thumbs');
+          media.forEach(function (m, i) {
+            var b = el('button');
+            b.type = 'button';
+            b.setAttribute('aria-label', 'الصورة ' + (i + 1));
+            b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+            var t = el('img');
+            t.src = photoUrl(m.storage_path);
+            t.alt = '';
+            t.loading = 'lazy';
+            b.appendChild(t);
+            b.addEventListener('click', function () {
+              main.src = t.src;
+              thumbs.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+              b.setAttribute('aria-pressed', 'true');
+            });
+            thumbs.appendChild(b);
+          });
+          wrap.appendChild(thumbs);
+        }
+        return wrap;
+      }
+
+      function priceBlock(ad) {
+        var box = el('div', 'ad-price');
+        if (ad.price == null) {
+          box.textContent = 'على السوم';
+        } else {
+          box.textContent = Number(ad.price).toLocaleString('en-US', { maximumFractionDigits: 2 }) + ' ' +
+            (SYMBOLS[ad.currency_code] || ad.currency_code);
+          if (ad.is_negotiable) box.appendChild(el('small', null, 'السعر قابل للتفاوض'));
+        }
         return box;
       }
 
-      if (!id) return showMessage('رابط الإعلان غير صحيح');
+      function specs(ad) {
+        var rows = [
+          ['القسم', ad.category && ad.category.name_ar],
+          ['السلالة', ad.breed && ad.breed.name_ar],
+          ['العمر', ad.age && ad.age.name_ar],
+          ['الجنس', GENDER[ad.gender]],
+          ['العدد', ad.quantity > 1 ? ad.quantity + ' رأس' : (ad.quantity === 1 ? 'رأس واحد' : null)],
+          ['المدينة', ad.city && ad.city.name_ar],
+          ['للأضحية', ad.is_udhiya ? 'مناسب للأضحية' : null],
+          ['رقم الإعلان', String(ad.id)],
+        ].filter(function (r) { return r[1]; });
+        var dl = el('dl', 'specs');
+        rows.forEach(function (r) {
+          var d = el('div');
+          d.appendChild(el('dt', null, r[0]));
+          d.appendChild(el('dd', null, r[1]));
+          dl.appendChild(d);
+        });
+        return dl;
+      }
 
-      var select = 'id,title,price,is_negotiable,currency_code,quantity,status,is_udhiya,description,' +
-        'city:cities(name_ar),breed:breeds(name_ar),category:categories(name_ar),media:ad_media(storage_path,sort_order)';
+      if (!id) return showMessage('رابط الإعلان غير صحيح.');
+
+      var select = 'id,title,price,is_negotiable,currency_code,quantity,gender,status,is_udhiya,description,' +
+        'city:cities(name_ar),breed:breeds(name_ar),category:categories(name_ar),age:age_options(name_ar),' +
+        'media:ad_media(storage_path,sort_order)';
 
       window.souqFetch('ads?select=' + encodeURIComponent(select) + '&id=eq.' + id).then(function (rows) {
         var ad = rows[0];
-        if (!ad) return showMessage('الإعلان غير متاح، ربما بيع أو حُذف');
-
+        if (!ad) return showMessage('هذا الإعلان لم يعد متاحًا، ربما بيع الحلال أو حُذف الإعلان.');
         document.title = ad.title + ' | سوق العز';
-        var media = (ad.media || []).slice().sort(function (a, b) { return a.sort_order - b.sort_order; });
 
-        var card = el('article', 'card');
-        if (media.length) {
-          var img = el('img', 'photo');
-          img.src = photoUrl(media[0].storage_path);
-          img.alt = ad.title;
-          card.appendChild(img);
-          if (media.length > 1) {
-            var thumbs = el('div', 'thumbs');
-            media.forEach(function (m) {
-              var t = el('img');
-              t.src = photoUrl(m.storage_path);
-              t.alt = '';
-              t.loading = 'lazy';
-              t.addEventListener('click', function () { img.src = t.src; });
-              thumbs.appendChild(t);
-            });
-            card.appendChild(thumbs);
-          }
-        } else {
-          card.appendChild(el('div', 'photo empty', 'لا توجد صور'));
-        }
+        var info = el('div', 'ad-info');
+        info.appendChild(el('h1', null, ad.title));
+        info.appendChild(priceBlock(ad));
+        info.appendChild(specs(ad));
+        if (ad.description) info.appendChild(el('p', 'ad-desc', ad.description));
 
-        var body = el('div', 'body');
-        var pills = el('div', 'pills');
-        [ad.category && ad.category.name_ar, ad.breed && ad.breed.name_ar, ad.is_udhiya ? 'مناسب للأضحية' : null,
-          ad.quantity > 1 ? ad.quantity + ' رأس' : null].filter(Boolean).forEach(function (p) {
-          pills.appendChild(el('span', 'pill', p));
-        });
-        if (pills.childNodes.length) body.appendChild(pills);
-        body.appendChild(el('h1', null, ad.title));
-        body.appendChild(el('div', 'price', price(ad)));
-        body.appendChild(el('div', 'meta', [ad.city && ad.city.name_ar, 'إعلان رقم ' + ad.id].filter(Boolean).join(' · ')));
-        if (ad.description) body.appendChild(el('p', 'desc', ad.description));
-        card.appendChild(body);
+        var actions = el('div', 'ad-actions');
+        var open = el('a', 'btn green', 'افتح الإعلان في التطبيق');
+        open.href = openAppUrl(ad.id);
+        actions.appendChild(open);
+        actions.appendChild(storeButton('outline'));
+        info.appendChild(actions);
 
-        var note = el('p', 'note', 'للتواصل مع البائع افتح الإعلان في التطبيق. عاين الحلال بنفسك قبل الدفع.');
-        app.replaceChildren(card, actions(ad.id), note);
+        var safety = el('div', 'safety');
+        safety.appendChild(el('b', null, 'قبل ما تشتري'));
+        safety.appendChild(document.createTextNode('رقم البائع داخل التطبيق. عاين الحلال بنفسك قبل الدفع، ولا تحوّل عربونًا لشخص ما قابلته.'));
+        info.appendChild(safety);
+
+        var page = el('div', 'ad');
+        page.appendChild(gallery(ad));
+        page.appendChild(info);
+        app.replaceChildren(page);
+        window.souqStoreButtons();
       }).catch(function () {
-        showMessage('تعذّر تحميل الإعلان، تأكد من الإنترنت');
+        showMessage('تعذّر تحميل الإعلان. تأكد من اتصالك بالإنترنت وحاول مرة ثانية.');
       });
+
+      window.souqStoreButtons();
+      window.souqFillContact();
     })();
   </script>
 </body>

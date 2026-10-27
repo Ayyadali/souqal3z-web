@@ -5,6 +5,8 @@ window.SOUQ = {
   scheme: 'souqal3z',
   androidPackage: 'com.souqal3z.app',
   storeUrl: 'https://play.google.com/store/apps/details?id=com.souqal3z.app',
+  // اجعلها true بعد نشر التطبيق في Google Play
+  storeLive: false,
 };
 
 window.souqFetch = async function (path) {
@@ -36,4 +38,17 @@ window.souqFillContact = async function () {
   } catch (e) {
     slots.forEach(function (el) { el.textContent = 'صفحة "حسابي" في التطبيق'; });
   }
+};
+
+// أزرار التحميل: كل عنصر يحمل data-store يأخذ رابط المتجر، أو «قريبًا» قبل النشر
+window.souqStoreButtons = function () {
+  document.querySelectorAll('[data-store]').forEach(function (a) {
+    if (window.SOUQ.storeLive) {
+      a.href = window.SOUQ.storeUrl;
+    } else {
+      a.removeAttribute('href');
+      a.setAttribute('aria-disabled', 'true');
+      a.textContent = 'قريبًا على Google Play';
+    }
+  });
 };

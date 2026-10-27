@@ -3,40 +3,279 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>سوق العز</title>
-  <meta name="description" content="سوق إعلانات الغنم والماعز والإبل والأبقار في دول الخليج.">
+  <title>سوق العز | بيع وشراء الغنم والماعز والإبل والأبقار في الخليج</title>
+  <meta name="description" content="سوق العز تطبيق إعلانات للحلال في دول الخليج الست. اعرض غنمك وماعزك وإبلك وبقرك مجانًا، والمشتري يتواصل معك مباشرة بالاتصال أو واتساب.">
+  <meta name="theme-color" content="#133A2C">
   <meta property="og:title" content="سوق العز">
-  <meta property="og:description" content="غنم وماعز وإبل وأبقار في دول الخليج">
+  <meta property="og:description" content="بيع وشراء الغنم والماعز والإبل والأبقار في دول الخليج">
   <meta property="og:image" content="assets/icon.png">
   <link rel="icon" href="assets/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=Noto+Kufi+Arabic:wght@500;700;800&display=swap">
   <link rel="stylesheet" href="assets/site.css">
   <script src="assets/config.js"></script>
 </head>
 <body>
-  <main class="wrap">
-    <a class="brand" href="./"><img src="assets/icon.png" alt="">سوق العز</a>
-    <section class="card">
-      <div class="body">
-        <h1>غنم، ماعز، إبل وأبقار في كل دول الخليج</h1>
-        <p class="desc">اعرض حلالك مجانًا وتواصل مع المشترين مباشرة بالاتصال أو واتساب. عمولة 1% فقط على البائع عند إتمام البيع.</p>
+  <header class="topbar">
+    <div class="container">
+      <a class="logo" href="./"><img src="assets/icon.png" alt=""><span>سوق العز</span></a>
+      <nav class="nav" aria-label="القائمة">
+        <a href="#herds">الأقسام</a>
+        <a href="#how">كيف يشتغل</a>
+        <a href="#commission">العمولة</a>
+        <a href="#faq">أسئلة</a>
+      </nav>
+      <a class="btn gold sm" data-store>حمّل التطبيق</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-mark" aria-hidden="true">عز</div>
+      <div class="container">
+        <h1>حلالك عزّك<span class="gold">وهذا سوقه في الخليج كله</span></h1>
+        <p class="lead">اعرض غنمك وماعزك وإبلك وبقرك مجانًا، والمشتري يكلمك مباشرة بالاتصال أو واتساب. بدون وسيط وبدون دفع داخل التطبيق.</p>
+        <div class="cta">
+          <a class="btn gold" data-store>حمّل التطبيق</a>
+          <a class="btn ghost" href="#how">شوف كيف يشتغل</a>
+        </div>
+        <ul class="facts">
+          <li>الإعلان مجاني</li>
+          <li>6 دول خليجية</li>
+          <li>عمولة 1% على البائع بعد البيع فقط</li>
+        </ul>
       </div>
     </section>
-    <div class="actions">
-      <a class="btn primary" id="store" href="#">حمّل تطبيق سوق العز</a>
-    </div>
-    <nav class="links">
-      <a href="terms.html">شروط الاستخدام</a>
-      <a href="privacy.html">سياسة الخصوصية</a>
-      <a href="commission.html">سياسة العمولة</a>
-    </nav>
-    <footer>للتواصل: <span data-contact>…</span></footer>
+    <div class="sadu" aria-hidden="true"></div>
+
+    <section class="section" id="herds">
+      <div class="container">
+        <div class="section-head">
+          <h2>لكل حلال قسمه، ولكل سلالة اسمها</h2>
+          <p>اختر القسم ثم السلالة، فيوصل المشتري لإعلانك من أقصر طريق.</p>
+        </div>
+        <div class="herds">
+          <div class="herd">
+            <h3>الغنم</h3>
+            <ul class="breeds"><li>نعيمي</li><li>نجدي</li><li>حري</li><li>رفيدي</li><li>عوارض</li><li>سواكني</li><li>بربري</li><li>عربي</li><li>هجين</li></ul>
+          </div>
+          <div class="herd">
+            <h3>الإبل</h3>
+            <ul class="breeds"><li>مجاهيم</li><li>وضح</li><li>شعل</li><li>صفر</li><li>حمر</li><li>شقح</li><li>عمانية</li><li>هجن</li></ul>
+          </div>
+          <div class="herd">
+            <h3>الماعز</h3>
+            <ul class="breeds"><li>شامي</li><li>نجدي</li><li>حجازي</li><li>جبلي</li><li>بلدي</li><li>هجين</li></ul>
+          </div>
+          <div class="herd">
+            <h3>الأبقار</h3>
+            <ul class="breeds"><li>بلدي</li><li>هولشتاين</li><li>جيرسي</li><li>هجين</li><li>عجول تسمين</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section sand" id="how">
+      <div class="container">
+        <div class="section-head">
+          <h2>من التصوير إلى البيع</h2>
+          <p>أربع خطوات، وأول إعلان ينزل خلال دقائق.</p>
+        </div>
+        <ol class="steps">
+          <li>
+            <h3>سجّل برقم جوالك</h3>
+            <p>يوصلك رمز تحقق برسالة، ثم تكتب اسمك. لا كلمة مرور ولا بريد إلكتروني.</p>
+          </li>
+          <li>
+            <h3>صوّر حلالك وانشر</h3>
+            <p>حتى 10 صور مع السعر والسلالة والعمر والمدينة. ينزل الإعلان فورًا ويبقى 30 يومًا.</p>
+          </li>
+          <li>
+            <h3>المشتري يكلمك</h3>
+            <p>اتصال مباشر، أو واتساب برسالة جاهزة فيها رقم الإعلان. البيع والدفع بينكم.</p>
+          </li>
+          <li>
+            <h3>بعت؟ سدّد 1%</h3>
+            <p>بعد البيع فقط، بتحويل بنكي ترفع إيصاله من صفحة العمولة في التطبيق.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-head">
+          <h2>تفاصيل يحتاجها أهل الحلال</h2>
+        </div>
+        <div class="features">
+          <div class="feature">
+            <h3>تابع السلالة اللي تبيها</h3>
+            <p>اضغط «تابع» على العوارض مثلًا، ويوصلك إشعار مع كل إعلان جديد منها.</p>
+          </div>
+          <div class="feature">
+            <h3>تنبيه نزول السعر</h3>
+            <p>إذا خفّض البائع سعر إعلان في مفضلتك، يوصلك إشعار على طول.</p>
+          </div>
+          <div class="feature">
+            <h3>تقييم البائعين</h3>
+            <p>بعد ما تتواصل مع بائع تقدر تقيّمه، وتقييمه يظهر لكل من يشوف إعلاناته.</p>
+          </div>
+          <div class="feature">
+            <h3>موسم الأضحى</h3>
+            <p>قبل العيد يظهر عدّاد الأيام، وتقدر تعرض الحلال المناسب للأضحية فقط.</p>
+          </div>
+          <div class="feature">
+            <h3>ارفع إعلانك كل يوم</h3>
+            <p>رجّع إعلانك لأول القائمة مرة كل 24 ساعة، مجانًا، ويتجدد معه عمر الإعلان.</p>
+          </div>
+          <div class="feature">
+            <h3>سوق نظيف</h3>
+            <p>بلّغ عن أي إعلان وهمي أو مخالف، والإدارة تراجعه وتحجبه.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section sand" id="commission">
+      <div class="container commission">
+        <div class="copy">
+          <div class="big">1%</div>
+          <h2>وبس.</h2>
+          <p>الإعلان مجاني، والتصفح والتواصل مجاني. إذا بعت عن طريق التطبيق يدفع البائع 1% من سعر البيع، والمشتري لا يدفع شيئًا.</p>
+          <a href="commission.html">اقرأ سياسة العمولة</a>
+        </div>
+        <form class="calc" id="calc" onsubmit="return false">
+          <h3>احسب عمولتك</h3>
+          <div class="row">
+            <div>
+              <label for="amount">سعر البيع</label>
+              <input id="amount" inputmode="decimal" autocomplete="off" value="1500" aria-describedby="result">
+            </div>
+            <div>
+              <label for="currency">العملة</label>
+              <select id="currency">
+                <option value="ر.س">ريال سعودي</option>
+                <option value="د.إ">درهم إماراتي</option>
+                <option value="د.ك">دينار كويتي</option>
+                <option value="ر.ق">ريال قطري</option>
+                <option value="د.ب">دينار بحريني</option>
+                <option value="ر.ع">ريال عماني</option>
+              </select>
+            </div>
+          </div>
+          <output id="result" for="amount currency" aria-live="polite">العمولة<b>15 ر.س</b></output>
+        </form>
+      </div>
+    </section>
+
+    <section class="section" id="countries">
+      <div class="container">
+        <div class="section-head">
+          <h2>في الخليج كله</h2>
+          <p>كل دولة بمدنها وعملتها ورمز اتصالها، وتقدر تتصفح أي دولة من داخل التطبيق.</p>
+        </div>
+        <ul class="countries">
+          <li><b>السعودية</b><span>ريال سعودي</span></li>
+          <li><b>الإمارات</b><span>درهم إماراتي</span></li>
+          <li><b>الكويت</b><span>دينار كويتي</span></li>
+          <li><b>قطر</b><span>ريال قطري</span></li>
+          <li><b>البحرين</b><span>دينار بحريني</span></li>
+          <li><b>عُمان</b><span>ريال عماني</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section sand" id="faq">
+      <div class="container">
+        <div class="section-head">
+          <h2>أسئلة تتكرر</h2>
+        </div>
+        <div class="faq">
+          <details>
+            <summary>هل التطبيق مجاني؟</summary>
+            <p>نعم. التسجيل ونشر الإعلانات والتصفح والتواصل كلها مجانية. العمولة الوحيدة 1% يدفعها البائع بعد إتمام البيع.</p>
+          </details>
+          <details>
+            <summary>هل أدفع قيمة الحلال داخل التطبيق؟</summary>
+            <p>لا. سوق العز للعرض والتواصل فقط. البيع والدفع بين البائع والمشتري مباشرة، والتطبيق لا يستلم أي مبلغ بينهم.</p>
+          </details>
+          <details>
+            <summary>كيف أسدّد العمولة؟</summary>
+            <p>من صفحة «العمولة» في التطبيق: تحسب المبلغ، وتحوّل على الحساب البنكي الظاهر، ثم ترفع صورة الإيصال. يصلك إشعار عند اعتماده.</p>
+          </details>
+          <details>
+            <summary>كم يبقى إعلاني ظاهرًا؟</summary>
+            <p>30 يومًا من آخر رفع. يصلك تنبيه قبل انتهائه، وتقدر ترفعه مرة كل 24 ساعة فيرجع لأول القائمة ويتجدد عمره.</p>
+          </details>
+          <details>
+            <summary>كيف أحمي نفسي عند الشراء؟</summary>
+            <p>عاين الحلال بنفسك قبل الدفع، ولا تحوّل عربونًا لشخص ما قابلته. وإذا شككت في إعلان، بلّغ عنه من داخل التطبيق.</p>
+          </details>
+          <details>
+            <summary>هل التطبيق متوفر على iPhone؟</summary>
+            <p>البداية على Android، ونسخة iPhone قريبًا.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing">
+      <div class="container">
+        <div>
+          <h2>عندك حلال للبيع؟</h2>
+          <p>صوّره الحين، وخلّ المشتري يوصلك.</p>
+        </div>
+        <a class="btn gold" data-store>حمّل التطبيق</a>
+      </div>
+    </section>
   </main>
+
+  <div class="sadu thin" aria-hidden="true"></div>
+  <footer class="footer">
+    <div class="container">
+      <div>
+        <a class="logo" href="./"><img src="assets/icon.png" alt=""><span>سوق العز</span></a>
+        <p style="margin-top:12px">للتواصل: <span data-contact>…</span></p>
+      </div>
+      <nav aria-label="روابط">
+        <a href="terms.html">شروط الاستخدام</a>
+        <a href="privacy.html">سياسة الخصوصية</a>
+        <a href="commission.html">سياسة العمولة</a>
+      </nav>
+      <p class="small">© <span id="year">2026</span> سوق العز. التطبيق وسيط عرض، وليس طرفًا في البيع.</p>
+    </div>
+  </footer>
+
   <script>
-    document.getElementById('store').href = window.SOUQ.storeUrl;
+    window.souqStoreButtons();
     window.souqFillContact();
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    (function () {
+      var amount = document.getElementById('amount');
+      var currency = document.getElementById('currency');
+      var result = document.getElementById('result');
+      function toLatin(s) {
+        return s.replace(/[٠-٩]/g, function (d) { return d.charCodeAt(0) - 0x0660; })
+                .replace(/[۰-۹]/g, function (d) { return d.charCodeAt(0) - 0x06F0; })
+                .replace(/[,،\s]/g, '').replace('٫', '.');
+      }
+      function update() {
+        var n = parseFloat(toLatin(amount.value));
+        var b = document.createElement('b');
+        if (!isFinite(n) || n <= 0) {
+          b.textContent = '—';
+        } else {
+          var fee = Math.round(n) / 100;
+          b.textContent = fee.toLocaleString('en-US', { maximumFractionDigits: 2 }) + ' ' + currency.value;
+        }
+        result.replaceChildren(document.createTextNode('العمولة'), b);
+      }
+      amount.addEventListener('input', update);
+      currency.addEventListener('change', update);
+      update();
+    })();
   </script>
 </body>
 </html>
