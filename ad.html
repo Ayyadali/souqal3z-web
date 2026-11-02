@@ -6,9 +6,18 @@
   <title>إعلان في سوق العز</title>
   <meta name="description" content="إعلان حلال في سوق العز: غنم وماعز وإبل وأبقار في دول الخليج.">
   <meta name="theme-color" content="#133A2C">
+  <link rel="canonical" href="https://souqal3z.com/ad.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="سوق العز">
+  <meta property="og:locale" content="ar_SA">
+  <meta property="og:url" content="https://souqal3z.com/ad.html">
   <meta property="og:title" content="إعلان في سوق العز">
   <meta property="og:description" content="غنم وماعز وإبل وأبقار في دول الخليج">
-  <meta property="og:image" content="assets/icon.png">
+  <meta property="og:image" content="https://souqal3z.com/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="apple-touch-icon" href="assets/icon.png">
   <link rel="icon" href="assets/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -86,7 +95,20 @@
         return a;
       }
 
+      function setMeta(sel, attr, value) {
+        var el = document.querySelector(sel);
+        if (el) el.setAttribute(attr, value);
+      }
+
+      function noIndex() {
+        var m = document.createElement('meta');
+        m.name = 'robots';
+        m.content = 'noindex';
+        document.head.appendChild(m);
+      }
+
       function showMessage(text) {
+        noIndex();
         var box = el('div', 'ad-state');
         box.appendChild(el('p', null, text));
         var home = el('a', 'btn outline', 'تصفّح سوق العز');
@@ -173,6 +195,15 @@
         var ad = rows[0];
         if (!ad) return showMessage('هذا الإعلان لم يعد متاحًا، ربما بيع الحلال أو حُذف الإعلان.');
         document.title = ad.title + ' | سوق العز';
+        var pageUrl = 'https://souqal3z.com/ad.html?id=' + ad.id;
+        var summary = [ad.category && ad.category.name_ar, ad.breed && ad.breed.name_ar, ad.city && ad.city.name_ar]
+          .filter(Boolean).join('، ');
+        var desc = (summary ? summary + '. ' : '') + (ad.description || 'إعلان حلال في سوق العز').slice(0, 140);
+        setMeta('link[rel=canonical]', 'href', pageUrl);
+        setMeta('meta[name=description]', 'content', desc);
+        setMeta('meta[property="og:url"]', 'content', pageUrl);
+        setMeta('meta[property="og:title"]', 'content', ad.title);
+        setMeta('meta[property="og:description"]', 'content', desc);
 
         var info = el('div', 'ad-info');
         info.appendChild(el('h1', null, ad.title));
