@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>إعلانات الغنم والماعز والإبل والأبقار | سوق العز</title>
+  <meta name="description" content="تصفّح أحدث إعلانات الحلال في السعودية ودول الخليج: غنم نعيمي ونجدي وعوارض، وإبل وماعز وأبقار، بالأسعار والصور والمدينة.">
+  <meta name="theme-color" content="#133A2C">
+  <link rel="canonical" href="https://souqal3z.com/ads.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="سوق العز">
+  <meta property="og:locale" content="ar_SA">
+  <meta property="og:url" content="https://souqal3z.com/ads.html">
+  <meta property="og:title" content="إعلانات الحلال | سوق العز">
+  <meta property="og:description" content="أحدث إعلانات الغنم والماعز والإبل والأبقار في دول الخليج">
+  <meta property="og:image" content="https://souqal3z.com/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="apple-touch-icon" href="assets/icon.png">
+  <link rel="icon" href="assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=Noto+Kufi+Arabic:wght@500;700;800&display=swap">
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="assets/config.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container">
+      <a class="logo" href="./"><img src="assets/icon.png" alt=""><span>سوق العز</span></a>
+      <nav class="nav" aria-label="القائمة">
+        <a href="./">الرئيسية</a>
+        <a href="ads.html" aria-current="page">الإعلانات</a>
+        <a href="./#how">كيف يشتغل</a>
+        <a href="./#faq">أسئلة</a>
+      </nav>
+      <a class="btn gold sm" data-store>حمّل التطبيق</a>
+    </div>
+  </header>
+
+  <div class="page-head browse-head">
+    <div class="container">
+      <h1 id="heading">إعلانات الحلال</h1>
+      <p id="subheading">أحدث الإعلانات من البائعين مباشرة. للتواصل مع البائع افتح الإعلان في التطبيق.</p>
+    </div>
+  </div>
+  <div class="sadu thin" aria-hidden="true"></div>
+
+  <main class="container browse">
+    <section class="filters" aria-label="تصفية الإعلانات">
+      <div class="seg" role="group" aria-label="القسم" id="cats"></div>
+      <div class="selects">
+        <label>الدولة
+          <select id="country"></select>
+        </label>
+        <label>المدينة
+          <select id="city"><option value="">كل المدن</option></select>
+        </label>
+        <label>السلالة
+          <select id="breed"><option value="">كل السلالات</option></select>
+        </label>
+        <label>الترتيب
+          <select id="sort">
+            <option value="new">الأحدث</option>
+            <option value="price_asc">السعر: من الأقل</option>
+            <option value="price_desc">السعر: من الأعلى</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <p class="result-count" id="count" aria-live="polite"></p>
+    <div class="ads-grid" id="grid"></div>
+    <div class="browse-more">
+      <button class="btn outline" id="more" hidden>عرض المزيد</button>
+    </div>
+    <div class="ad-state" id="empty" hidden>
+      <p id="emptyText">لا توجد إعلانات بهذه التصفية حاليًا.</p>
+      <a class="btn green" data-store>حمّل التطبيق وأضف إعلانك</a>
+    </div>
+  </main>
+
+  <section class="closing">
+    <div class="container">
+      <div>
+        <h2>لقيت اللي تبيه؟</h2>
+        <p>رقم البائع والتواصل معه بالاتصال أو واتساب داخل التطبيق.</p>
+      </div>
+      <a class="btn gold" data-store>حمّل التطبيق</a>
+    </div>
+  </section>
+
+  <div class="sadu thin" aria-hidden="true"></div>
+  <footer class="footer">
+    <div class="container">
+      <div>
+        <a class="logo" href="./"><img src="assets/icon.png" alt=""><span>سوق العز</span></a>
+        <p style="margin-top:12px">للتواصل: <span data-contact>…</span></p>
+      </div>
+      <nav aria-label="روابط">
+        <a href="./">الرئيسية</a>
+        <a href="ads.html">الإعلانات</a>
+        <a href="terms.html">شروط الاستخدام</a>
+        <a href="privacy.html">سياسة الخصوصية</a>
+        <a href="commission.html">سياسة العمولة</a>
+        <a href="delete-account.html">حذف الحساب</a>
+      </nav>
+      <p class="small">© سوق العز. التطبيق وسيط عرض، وليس طرفًا في البيع.</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var S = window.SOUQ;
+      var PAGE = 24;
+      var LIFETIME_DAYS = 30;
+      var COUNTRIES = [
+        { code: 'SA', name: 'السعودية', sym: 'ر.س' },
+        { code: 'AE', name: 'الإمارات', sym: 'د.إ' },
+        { code: 'KW', name: 'الكويت', sym: 'د.ك' },
+        { code: 'QA', name: 'قطر', sym: 'ر.ق' },
+        { code: 'BH', name: 'البحرين', sym: 'د.ب' },
+        { code: 'OM', name: 'عُمان', sym: 'ر.ع' },
+      ];
+      var SYMBOLS = {};
+      COUNTRIES.forEach(function (c) { SYMBOLS[c.code] = c.sym; });
+      SYMBOLS.SAR = 'ر.س'; SYMBOLS.AED = 'د.إ'; SYMBOLS.KWD = 'د.ك'; SYMBOLS.QAR = 'ر.ق'; SYMBOLS.BHD = 'د.ب'; SYMBOLS.OMR = 'ر.ع';
+
+      var el = function (tag, cls, text) {
+        var n = document.createElement(tag);
+        if (cls) n.className = cls;
+        if (text != null) n.textContent = text;
+        return n;
+      };
+      var $ = function (id) { return document.getElementById(id); };
+
+      var params = new URLSearchParams(location.search);
+      var state = {
+        country: params.get('country') || 'SA',
+        cat: params.get('cat') || '',
+        city: params.get('city') || '',
+        breed: params.get('breed') || '',
+        sort: params.get('sort') || 'new',
+        offset: 0,
+      };
+      var categories = [];
+      var breeds = [];
+      var cities = [];
+
+      function country() {
+        return COUNTRIES.filter(function (c) { return c.code === state.country; })[0] || COUNTRIES[0];
+      }
+      function category() {
+        return categories.filter(function (c) { return c.slug === state.cat; })[0] || null;
+      }
+      function nameOf(list, id) {
+        var f = list.filter(function (x) { return String(x.id) === String(id); })[0];
+        return f ? f.name_ar : '';
+      }
+
+      function photoUrl(path) {
+        return S.supabaseUrl + '/storage/v1/object/public/ad-media/' + path.split('/').map(encodeURIComponent).join('/');
+      }
+
+      function timeAgo(iso) {
+        var mins = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
+        if (mins < 60) return 'قبل دقائق';
+        var h = Math.floor(mins / 60);
+        if (h < 24) return h === 1 ? 'قبل ساعة' : h === 2 ? 'قبل ساعتين' : 'قبل ' + h + (h <= 10 ? ' ساعات' : ' ساعة');
+        var d = Math.floor(h / 24);
+        if (d === 1) return 'أمس';
+        if (d === 2) return 'قبل يومين';
+        return 'قبل ' + d + (d <= 10 ? ' أيام' : ' يومًا');
+      }
+
+      function priceText(ad) {
+        if (ad.price == null) return 'على السوم';
+        return Number(ad.price).toLocaleString('en-US', { maximumFractionDigits: 2 }) + ' ' + (SYMBOLS[ad.currency_code] || ad.currency_code);
+      }
+
+      // ---------- العنوان والرابط حسب التصفية (للبحث والمشاركة) ----------
+      function syncUrlAndMeta() {
+        var q = new URLSearchParams();
+        if (state.country !== 'SA') q.set('country', state.country);
+        if (state.cat) q.set('cat', state.cat);
+        if (state.city) q.set('city', state.city);
+        if (state.breed) q.set('breed', state.breed);
+        if (state.sort !== 'new') q.set('sort', state.sort);
+        var qs = q.toString();
+        history.replaceState(null, '', 'ads.html' + (qs ? '?' + qs : ''));
+
+        var cat = category();
+        var what = state.breed ? nameOf(breeds, state.breed) : (cat ? cat.name_ar : 'الحلال');
+        var where = state.city ? nameOf(cities, state.city) : country().name;
+        var heading = (cat || state.breed ? what : 'إعلانات الحلال') + ' للبيع في ' + where;
+        $('heading').textContent = heading;
+        document.title = heading + ' | سوق العز';
+        var desc = 'أحدث إعلانات ' + what + ' للبيع في ' + where + ' بالأسعار والصور. تواصل مع البائع مباشرة عبر تطبيق سوق العز.';
+        document.querySelector('meta[name=description]').setAttribute('content', desc);
+        q.delete('sort');
+        var cqs = q.toString();
+        document.querySelector('link[rel=canonical]').setAttribute('href', 'https://souqal3z.com/ads.html' + (cqs ? '?' + cqs : ''));
+      }
+
+      // ---------- عناصر التصفية ----------
+      function renderCats() {
+        var box = $('cats');
+        box.replaceChildren();
+        [{ slug: '', name_ar: 'الكل' }].concat(categories).forEach(function (c) {
+          var b = el('button', null, c.name_ar);
+          b.type = 'button';
+          b.setAttribute('aria-pressed', String(state.cat === c.slug));
+          b.addEventListener('click', function () {
+            if (state.cat === c.slug) return;
+            state.cat = c.slug;
+            state.breed = '';
+            renderCats();
+            renderBreeds();
+            reload();
+          });
+          box.appendChild(b);
+        });
+      }
+
+      function fillSelect(select, firstLabel, list, value) {
+        select.replaceChildren(el('option', null, firstLabel));
+        select.firstChild.value = '';
+        list.forEach(function (x) {
+          var o = el('option', null, x.name_ar);
+          o.value = String(x.id);
+          select.appendChild(o);
+        });
+        select.value = value || '';
+      }
+
+      function renderBreeds() {
+        var cat = category();
+        var list = cat ? breeds.filter(function (b) { return b.category_id === cat.id; }) : [];
+        fillSelect($('breed'), cat ? 'كل السلالات' : 'اختر القسم أولًا', list, state.breed);
+        $('breed').disabled = !cat;
+      }
+
+      function loadCities() {
+        return window.souqFetch('cities?select=id,name_ar&is_active=eq.true&country_code=eq.' + state.country + '&order=sort_order')
+          .then(function (rows) {
+            cities = rows;
+            if (state.city && !rows.some(function (c) { return String(c.id) === state.city; })) state.city = '';
+            fillSelect($('city'), 'كل المدن', rows, state.city);
+          });
+      }
+
+      // ---------- الإعلانات ----------
+      function query() {
+        var cutoff = new Date(Date.now() - LIFETIME_DAYS * 86400000).toISOString();
+        var q = 'ads?select=' + encodeURIComponent('id,title,price,currency_code,is_negotiable,quantity,bumped_at,is_udhiya,city:cities(name_ar),breed:breeds(name_ar),media:ad_media(storage_path,sort_order)') +
+          '&status=eq.active&blocked_at=is.null&bumped_at=gt.' + encodeURIComponent(cutoff) +
+          '&country_code=eq.' + state.country;
+        var cat = category();
+        if (cat) q += '&category_id=eq.' + cat.id;
+        if (state.city) q += '&city_id=eq.' + encodeURIComponent(state.city);
+        if (state.breed) q += '&breed_id=eq.' + encodeURIComponent(state.breed);
+        q += '&order=' + (state.sort === 'price_asc' ? 'price.asc.nullslast' : state.sort === 'price_desc' ? 'price.desc.nullslast' : 'bumped_at.desc');
+        q += '&limit=' + (PAGE + 1) + '&offset=' + state.offset;
+        return q;
+      }
+
+      function card(ad) {
+        var a = el('a', 'ad-card');
+        a.href = 'ad.html?id=' + ad.id;
+        var media = (ad.media || []).slice().sort(function (x, y) { return x.sort_order - y.sort_order; });
+        var pic = el('div', 'ad-card-pic');
+        if (media.length) {
+          var img = el('img');
+          img.src = photoUrl(media[0].storage_path);
+          img.alt = ad.title;
+          img.loading = 'lazy';
+          img.decoding = 'async';
+          pic.appendChild(img);
+        }
+        if (ad.is_udhiya) pic.appendChild(el('span', 'ad-card-tag', 'للأضحية'));
+        a.appendChild(pic);
+        var body = el('div', 'ad-card-body');
+        body.appendChild(el('h3', null, ad.title));
+        body.appendChild(el('div', 'ad-card-price', priceText(ad)));
+        var meta = el('div', 'ad-card-meta');
+        if (ad.city && ad.city.name_ar) meta.appendChild(el('span', null, ad.city.name_ar));
+        meta.appendChild(el('span', null, timeAgo(ad.bumped_at)));
+        body.appendChild(meta);
+        a.appendChild(body);
+        return a;
+      }
+
+      var loading = false;
+      function load(append) {
+        if (loading) return;
+        loading = true;
+        $('more').disabled = true;
+        if (!append) {
+          $('grid').replaceChildren();
+          $('count').textContent = 'جارٍ تحميل الإعلانات…';
+          $('empty').hidden = true;
+        }
+        window.souqFetch(query()).then(function (rows) {
+          var hasMore = rows.length > PAGE;
+          rows.slice(0, PAGE).forEach(function (ad) { $('grid').appendChild(card(ad)); });
+          var shown = $('grid').children.length;
+          $('count').textContent = shown ? (shown + (hasMore ? '+' : '') + ' إعلان') : '';
+          $('empty').hidden = shown > 0;
+          $('more').hidden = !hasMore;
+          state.offset += PAGE;
+        }).catch(function () {
+          $('count').textContent = 'تعذّر تحميل الإعلانات. تأكد من اتصالك وحاول مرة ثانية.';
+        }).finally(function () {
+          loading = false;
+          $('more').disabled = false;
+          window.souqStoreButtons();
+        });
+      }
+
+      function reload() {
+        state.offset = 0;
+        syncUrlAndMeta();
+        load(false);
+      }
+
+      // ---------- التشغيل ----------
+      COUNTRIES.forEach(function (c) {
+        var o = el('option', null, c.name);
+        o.value = c.code;
+        $('country').appendChild(o);
+      });
+      if (!COUNTRIES.some(function (c) { return c.code === state.country; })) state.country = 'SA';
+      $('country').value = state.country;
+      $('sort').value = state.sort;
+
+      $('country').addEventListener('change', function () {
+        state.country = this.value;
+        state.city = '';
+        loadCities().then(reload);
+      });
+      $('city').addEventListener('change', function () { state.city = this.value; reload(); });
+      $('breed').addEventListener('change', function () { state.breed = this.value; reload(); });
+      $('sort').addEventListener('change', function () { state.sort = this.value; reload(); });
+      $('more').addEventListener('click', function () { load(true); });
+
+      Promise.all([
+        window.souqFetch('categories?select=id,slug,name_ar&is_active=eq.true&order=sort_order'),
+        window.souqFetch('breeds?select=id,name_ar,category_id&is_active=eq.true&order=sort_order'),
+        loadCities(),
+      ]).then(function (res) {
+        categories = res[0];
+        breeds = res[1];
+        if (state.cat && !category()) state.cat = '';
+        renderCats();
+        renderBreeds();
+        reload();
+      }).catch(function () {
+        $('count').textContent = 'تعذّر تحميل الإعلانات. تأكد من اتصالك وحاول مرة ثانية.';
+      });
+
+      window.souqStoreButtons();
+      window.souqFillContact();
+    })();
+  </script>
+</body>
+</html>

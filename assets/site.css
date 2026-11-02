@@ -246,3 +246,49 @@ p { margin: 0; }
 .ad-state { text-align: center; padding: 72px 0; display: grid; gap: 20px; justify-items: center; }
 .ad-state p { font-size: 19px; color: var(--ink-soft); }
 @media (min-width: 900px) { .ad { grid-template-columns: 1.15fr 1fr; gap: 56px; padding-top: 48px; } }
+
+/* ---------- تصفّح الإعلانات ---------- */
+.browse { padding: 28px 20px 64px; }
+.filters { display: grid; gap: 16px; margin-bottom: 20px; }
+.seg { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; }
+.seg button {
+  flex: none; min-height: 44px; padding: 0 20px; border-radius: 999px; cursor: pointer;
+  border: 1.5px solid var(--line); background: #fff; color: var(--ink);
+  font-family: var(--body); font-size: 15px; font-weight: 700;
+}
+.seg button[aria-pressed="true"] { background: var(--green); border-color: var(--green); color: #fff; }
+.selects { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.selects label { display: grid; gap: 4px; font-size: 13px; font-weight: 700; color: var(--ink-soft); }
+.selects select {
+  height: 46px; border: 1.5px solid var(--line); border-radius: 12px; background: #fff;
+  font-family: var(--body); font-size: 15px; color: var(--ink); padding: 0 10px;
+}
+.selects select:disabled { background: var(--wool); color: var(--ink-soft); }
+@media (min-width: 820px) { .selects { grid-template-columns: repeat(4, 1fr); } }
+.result-count { font-size: 14px; color: var(--ink-soft); margin: 0 0 12px; min-height: 1.5em; }
+
+.ads-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (min-width: 720px) { .ads-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; } }
+@media (min-width: 1040px) { .ads-grid { grid-template-columns: repeat(4, 1fr); } }
+.ad-card {
+  display: flex; flex-direction: column; background: #fff; border-radius: 16px; overflow: hidden;
+  text-decoration: none; color: var(--ink); border: 1px solid var(--line);
+}
+.ad-card:hover { border-color: var(--green); }
+.ad-card-pic { position: relative; aspect-ratio: 4 / 3; background: var(--sand); }
+.ad-card-pic img { width: 100%; height: 100%; object-fit: cover; }
+.ad-card-tag {
+  position: absolute; top: 8px; inset-inline-start: 8px; background: var(--gold); color: var(--night);
+  font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 999px;
+}
+.ad-card-body { padding: 10px 12px 12px; display: grid; gap: 4px; }
+.ad-card-body h3 {
+  font-family: var(--body); font-size: 15px; font-weight: 700; line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.ad-card-price { font-family: var(--display); font-weight: 700; font-size: 17px; color: var(--green); }
+.ad-card-meta { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; color: var(--ink-soft); }
+.browse-more { display: flex; justify-content: center; margin-top: 24px; }
+.browse-more .btn[hidden] { display: none; }
+.herd h3 a { color: inherit; text-decoration: none; }
+.herd h3 a:hover { text-decoration: underline; text-underline-offset: 6px; }
