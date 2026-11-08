@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://souqal3z.com/sitemap.xml
+Sitemap: https://souqal3z.com/sitemap-ads.xml

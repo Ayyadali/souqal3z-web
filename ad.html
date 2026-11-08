@@ -197,7 +197,7 @@
         var ad = rows[0];
         if (!ad) return showMessage('هذا الإعلان لم يعد متاحًا، ربما بيع الحلال أو حُذف الإعلان.');
         document.title = ad.title + ' | سوق العز';
-        var pageUrl = 'https://souqal3z.com/ad.html?id=' + ad.id;
+        var pageUrl = 'https://souqal3z.com/ad/' + ad.id;
         var summary = [ad.category && ad.category.name_ar, ad.breed && ad.breed.name_ar, ad.city && ad.city.name_ar]
           .filter(Boolean).join('، ');
         var desc = (summary ? summary + '. ' : '') + (ad.description || 'إعلان حلال في سوق العز').slice(0, 140);

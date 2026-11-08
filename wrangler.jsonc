@@ -1,0 +1,19 @@
+// إعداد نشر الموقع على Cloudflare Workers (يقرؤه Cloudflare عند ربط المستودع)
+{
+  "name": "souqal3z-web",
+  "main": "worker.js",
+  "compatibility_date": "2026-06-01",
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS",
+    "html_handling": "none",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/", "/ad/*", "/ad.html", "/sitemap-ads.xml"]
+  },
+  "vars": {
+    "SUPABASE_URL": "https://avbqkguasnpxbcmuqdtu.supabase.co",
+    "SUPABASE_KEY": "sb_publishable_ICYdofxqMVO3qX7xTFs04w_6_vg0HQZ",
+    "APP_SCHEME": "souqal3z",
+    "ANDROID_PACKAGE": "com.souqal3z.app"
+  }
+}

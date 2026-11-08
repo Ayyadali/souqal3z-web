@@ -11,6 +11,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=Noto+Kufi+Arabic:wght@500;700;800&display=swap">
   <link rel="stylesheet" href="/assets/site.css">
+  <script>
+    // روابط الإعلانات المختصرة /ad/123 تُحوَّل إلى صفحة الإعلان
+    (function () {
+      var m = location.pathname.match(/^\/ad\/(\d+)\/?$/);
+      if (m) location.replace('/ad.html?id=' + m[1]);
+    })();
+  </script>
 </head>
 <body>
   <header class="topbar">
