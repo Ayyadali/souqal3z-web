@@ -85,11 +85,12 @@ async function adPage(id, request, env) {
   const media = (ad.media || []).slice().sort((a, b) => a.sort_order - b.sort_order);
   const images = media.filter((m) => m.media_type !== 'video').map((m) => mediaUrl(env, m.storage_path));
   const videos = media.filter((m) => m.media_type === 'video').map((m) => mediaUrl(env, m.storage_path));
-  const place = [ad.breed?.name_ar, ad.category?.name_ar].filter(Boolean).join(' ');
+  const place = [ad.category?.name_ar, ad.breed?.name_ar].filter(Boolean).join(' ');
   const where = ad.city?.name_ar ? `في ${ad.city.name_ar}` : '';
   const price = priceText(ad);
   const summary = [ad.category?.name_ar, ad.breed?.name_ar, ad.city?.name_ar].filter(Boolean).join('، ');
-  const description = `${price}${summary ? ' · ' + summary : ''}. ${(ad.description || `${place} للبيع ${where}`).replace(/\s+/g, ' ').slice(0, 140)}`;
+  // السعر ظاهر في العنوان، فالوصف يبدأ بالقسم والسلالة والمدينة
+  const description = `${summary ? summary + '. ' : ''}${(ad.description || `${place} للبيع ${where}`).replace(/\s+/g, ' ').trim().slice(0, 140)}`;
   const expired = isExpired(ad);
 
   const specs = [
