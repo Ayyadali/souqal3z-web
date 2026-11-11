@@ -7,6 +7,7 @@ window.SOUQ = {
   storeUrl: 'https://play.google.com/store/apps/details?id=com.souqal3z.app',
   // اجعلها true بعد نشر التطبيق في Google Play
   storeLive: false,
+  iosUrl: 'https://apps.apple.com/app/id6832979469',
 };
 
 window.souqFetch = async function (path) {
@@ -40,15 +41,19 @@ window.souqFillContact = async function () {
   }
 };
 
-// أزرار التحميل: كل عنصر يحمل data-store يأخذ رابط المتجر، أو «قريبًا» قبل النشر
+// أزرار التحميل: آيفون ← App Store، أندرويد ← Google Play (أو «قريبًا» قبل نشره)، والكمبيوتر ← App Store
 window.souqStoreButtons = function () {
+  var ua = navigator.userAgent || '';
+  var android = /android/i.test(ua);
   document.querySelectorAll('[data-store]').forEach(function (a) {
-    if (window.SOUQ.storeLive) {
-      a.href = window.SOUQ.storeUrl;
-    } else {
+    if (android && !window.SOUQ.storeLive) {
       a.removeAttribute('href');
       a.setAttribute('aria-disabled', 'true');
       a.textContent = 'قريبًا على Google Play';
+      return;
     }
+    a.href = android ? window.SOUQ.storeUrl : window.SOUQ.iosUrl;
+    a.target = '_blank';
+    a.rel = 'noopener';
   });
 };
