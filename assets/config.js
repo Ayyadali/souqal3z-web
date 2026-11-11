@@ -41,19 +41,33 @@ window.souqFillContact = async function () {
   }
 };
 
-// أزرار التحميل: آيفون ← App Store، أندرويد ← Google Play (أو «قريبًا» قبل نشره)، والكمبيوتر ← App Store
+// أزرار التحميل: كل عنصر يحمل data-store يصير زرّين — «حمّل للآيفون» (App Store) و«أندرويد قريبًا»
+// وبعد نشر Google Play (storeLive) يصير الثاني «حمّل للأندرويد»
 window.souqStoreButtons = function () {
-  var ua = navigator.userAgent || '';
-  var android = /android/i.test(ua);
+  var ICON_DL = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>';
+  var ICON_SOON = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
   document.querySelectorAll('[data-store]').forEach(function (a) {
-    if (android && !window.SOUQ.storeLive) {
-      a.removeAttribute('href');
-      a.setAttribute('aria-disabled', 'true');
-      a.textContent = 'قريبًا على Google Play';
-      return;
+    if (a.dataset.storeDone) return;
+    var pair = document.createElement('span');
+    pair.className = 'store-pair';
+    var ios = a.cloneNode(false);
+    ios.removeAttribute('data-store');
+    ios.dataset.storeDone = '1';
+    ios.href = window.SOUQ.iosUrl; ios.target = '_blank'; ios.rel = 'noopener';
+    ios.innerHTML = ICON_DL + '<span>حمّل للآيفون</span>';
+    var android = a.cloneNode(false);
+    android.removeAttribute('data-store');
+    android.dataset.storeDone = '1';
+    if (window.SOUQ.storeLive) {
+      android.href = window.SOUQ.storeUrl; android.target = '_blank'; android.rel = 'noopener';
+      android.innerHTML = ICON_DL + '<span>حمّل للأندرويد</span>';
+    } else {
+      android.removeAttribute('href');
+      android.setAttribute('aria-disabled', 'true');
+      android.classList.add('soon');
+      android.innerHTML = ICON_SOON + '<span>أندرويد قريبًا</span>';
     }
-    a.href = android ? window.SOUQ.storeUrl : window.SOUQ.iosUrl;
-    a.target = '_blank';
-    a.rel = 'noopener';
+    pair.appendChild(ios); pair.appendChild(android);
+    a.replaceWith(pair);
   });
 };

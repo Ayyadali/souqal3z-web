@@ -297,3 +297,13 @@ p { margin: 0; }
 .crumbs { padding-top: 24px; font-size: 14px; color: var(--ink-soft); display: flex; flex-wrap: wrap; gap: 6px; }
 .crumbs a { color: var(--green); }
 .crumbs + .ad { padding-top: 16px; }
+
+/* زرّا التحميل: آيفون + أندرويد */
+.store-pair { display: inline-flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.store-pair .btn { gap: 8px; }
+.topbar .store-pair { margin-inline-start: auto; flex-wrap: nowrap; }
+.topbar .store-pair .btn { margin-inline-start: 0; }
+.btn.soon { background: transparent; border: 1.5px dashed currentColor; opacity: .75; }
+.btn.gold.soon { color: var(--gold); }
+.btn.green.soon { color: var(--green); }
+@media (max-width: 560px) { .topbar .store-pair { display: none; } }
