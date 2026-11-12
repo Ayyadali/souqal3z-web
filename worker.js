@@ -49,6 +49,21 @@ function priceText(ad) {
   return Number(ad.price).toLocaleString('en-US', { maximumFractionDigits: 2 }) + ' ' + (SYMBOLS[ad.currency_code] || ad.currency_code);
 }
 
+const money = (v, cur) => Number(v).toLocaleString('en-US', { maximumFractionDigits: 2 }) + ' ' + (SYMBOLS[cur] || cur);
+
+// «ينتهي اليوم 9:00 م» / «ينتهي بكرة 3:30 م» / «ينتهي السبت 9:00 م» بتوقيت الرياض
+function endsText(iso) {
+  const tz = 'Asia/Riyadh';
+  const end = new Date(iso);
+  const day = (d) => new Intl.DateTimeFormat('en-CA', { timeZone: tz }).format(d);
+  const time = new Intl.DateTimeFormat('ar-SA-u-nu-latn', { timeZone: tz, hour: 'numeric', minute: '2-digit' }).format(end);
+  const today = day(new Date());
+  const tomorrow = day(new Date(Date.now() + 86400000));
+  const d = day(end);
+  const when = d === today ? 'اليوم' : d === tomorrow ? 'بكرة' : new Intl.DateTimeFormat('ar-SA', { timeZone: tz, weekday: 'long' }).format(end);
+  return `ينتهي ${when} ${time}`;
+}
+
 function isExpired(ad) {
   return new Date(ad.bumped_at).getTime() < Date.now() - LIFETIME_DAYS * 86400000;
 }
@@ -66,9 +81,15 @@ async function adPage(id, request, env) {
     'id,title,price,is_negotiable,currency_code,quantity,gender,status,is_udhiya,description,bumped_at,' +
     'city:cities(name_ar),breed:breeds(name_ar),category:categories(name_ar,slug),age:age_options(name_ar),' +
     'media:ad_media(storage_path,media_type,sort_order)';
+  const auctionSelect = ',sale_type,auction:auctions(current_price,start_price,ends_at,status,bid_count)';
   let ad;
   try {
-    const rows = await rest(env, `ads?select=${encodeURIComponent(select)}&id=eq.${id}`);
+    let rows;
+    try {
+      rows = await rest(env, `ads?select=${encodeURIComponent(select + auctionSelect)}&id=eq.${id}`);
+    } catch {
+      rows = await rest(env, `ads?select=${encodeURIComponent(select)}&id=eq.${id}`); // قبل جداول المزاد
+    }
     ad = rows[0];
   } catch {
     return html(shell({ title: 'سوق العز', body: stateBox('تعذّر تحميل الإعلان الآن. حاول بعد قليل.'), noindex: true }), 503, 0);
@@ -92,6 +113,20 @@ async function adPage(id, request, env) {
   // السعر ظاهر في العنوان، فالوصف يبدأ بالقسم والسلالة والمدينة
   const description = `${summary ? summary + '. ' : ''}${(ad.description || `${place} للبيع ${where}`).replace(/\s+/g, ' ').trim().slice(0, 140)}`;
   const expired = isExpired(ad);
+
+  // المزاد
+  const au = ad.sale_type === 'auction' ? ad.auction : null;
+  const auLive = !!au && au.status === 'live' && new Date(au.ends_at).getTime() > Date.now();
+  const auPrice = au ? money(au.current_price ?? au.start_price, ad.currency_code) : null;
+  const auLabel = au ? (au.current_price != null ? `أعلى سوم ${auPrice}` : `يبدأ من ${auPrice}`) : null;
+  const ogTitle = au
+    ? auLive
+      ? `🔨 مزاد: ${ad.title} · ${auLabel}`
+      : `مزاد منتهي: ${ad.title}`
+    : `${ad.title} · ${price}`;
+  const ogDescription = auLive
+    ? `${endsText(au.ends_at)} · ${au.bid_count > 0 ? `${au.bid_count} سوم` : 'كن أول من يسوم'}. ${summary}`
+    : description;
 
   const specs = [
     ['القسم', ad.category?.name_ar],
@@ -146,7 +181,7 @@ async function adPage(id, request, env) {
         ad.price != null
           ? {
               '@type': 'Offer',
-              price: Number(ad.price),
+              price: Number(au ? au.current_price ?? au.start_price : ad.price),
               priceCurrency: ad.currency_code,
               availability: expired ? 'https://schema.org/Discontinued' : 'https://schema.org/InStock',
               url: pageUrl,
@@ -170,12 +205,23 @@ async function adPage(id, request, env) {
       ${gallery}
       <div class="ad-info">
         <h1>${esc(ad.title)}</h1>
-        <div class="ad-price">${esc(price)}${ad.price != null && ad.is_negotiable ? '<small>السعر قابل للتفاوض</small>' : ''}</div>
+        ${
+          au
+            ? `<div class="auction-box${auLive ? '' : ' ended'}">
+          <div class="auction-head"><span class="auction-badge">${auLive ? 'مزاد قائم' : 'انتهى المزاد'}</span>${
+            auLive ? `<span class="auction-timer" data-ends="${esc(au.ends_at)}">${esc(endsText(au.ends_at))}</span>` : ''
+          }</div>
+          <div class="auction-label">${au.current_price != null ? 'أعلى سوم' : 'سعر البداية'}</div>
+          <div class="ad-price">${esc(auPrice)}</div>
+          <div class="auction-meta">${au.bid_count > 0 ? `${au.bid_count} سوم حتى الآن` : 'ما أحد سام بعد'}</div>
+        </div>`
+            : `<div class="ad-price">${esc(price)}${ad.price != null && ad.is_negotiable ? '<small>السعر قابل للتفاوض</small>' : ''}</div>`
+        }
         <dl class="specs">${specs}</dl>
         ${notice}
         ${ad.description ? `<p class="ad-desc">${esc(ad.description)}</p>` : ''}
         <div class="ad-actions">
-          <a class="btn green" href="${esc(openAppHref(env, ad.id, request.headers.get('user-agent')))}">افتح الإعلان في التطبيق</a>
+          <a class="btn green" href="${esc(openAppHref(env, ad.id, request.headers.get('user-agent')))}">${auLive ? 'سُم الحين من التطبيق' : 'افتح الإعلان في التطبيق'}</a>
           <a class="btn outline" data-store>حمّل التطبيق</a>
         </div>
         <div class="safety"><b>قبل ما تشتري</b>رقم البائع داخل التطبيق. عاين الحلال بنفسك قبل الدفع، ولا تحوّل عربونًا لشخص ما قابلته.</div>
@@ -184,6 +230,20 @@ async function adPage(id, request, env) {
   </main>
   <script>
     (function () {
+      // عداد المزاد
+      var t = document.querySelector('.auction-timer');
+      if (t) {
+        var end = new Date(t.getAttribute('data-ends')).getTime();
+        var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+        var tick = function () {
+          var s = Math.max(0, Math.floor((end - Date.now()) / 1000));
+          if (s <= 0) { t.textContent = 'انتهى المزاد'; return; }
+          var d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60), x = s % 60;
+          t.textContent = 'باقي ' + (d ? d + ' يوم ' : '') + pad(h) + ':' + pad(m) + ':' + pad(x);
+          setTimeout(tick, 1000);
+        };
+        tick();
+      }
       var main = document.querySelector('.gallery .main');
       document.querySelectorAll('.thumbs button').forEach(function (b, i, all) {
         b.addEventListener('click', function () {
@@ -198,9 +258,9 @@ async function adPage(id, request, env) {
   return html(
     shell({
       title: `${ad.title} | سوق العز`,
-      description,
+      description: ogDescription,
       canonical: pageUrl,
-      ogTitle: `${ad.title} · ${price}`,
+      ogTitle,
       image: images[0],
       imageAlt: ad.title,
       ogType: 'product',
@@ -209,7 +269,7 @@ async function adPage(id, request, env) {
       body,
     }),
     200,
-    300,
+    au ? 60 : 300,
   );
 }
 

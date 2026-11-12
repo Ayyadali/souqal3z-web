@@ -307,3 +307,14 @@ p { margin: 0; }
 .btn.gold.soon { color: var(--gold); }
 .btn.green.soon { color: var(--green); }
 @media (max-width: 560px) { .topbar .store-pair { display: none; } }
+
+/* مزاد في صفحة الإعلان */
+.auction-box { border: 2px solid var(--gold); border-radius: 16px; padding: 14px 16px; margin: 6px 0 14px; background: #FFFBF1; }
+.auction-box.ended { border-color: var(--line); background: transparent; }
+.auction-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+.auction-badge { background: var(--green); color: #fff; font-size: 13px; font-weight: 700; padding: 3px 12px; border-radius: 999px; }
+.auction-box.ended .auction-badge { background: var(--line); color: var(--ink-soft); }
+.auction-timer { font-weight: 700; color: #A1361F; font-variant-numeric: tabular-nums; }
+.auction-label { font-size: 13px; color: var(--ink-soft); }
+.auction-box .ad-price { margin: 2px 0; }
+.auction-meta { font-size: 13px; color: var(--ink-soft); }
