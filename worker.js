@@ -18,6 +18,11 @@ export default {
     }
 
     if (request.method === 'GET' || request.method === 'HEAD') {
+      // روابط تفتح التطبيق مباشرة (آيفون وأندرويد)
+      if (url.pathname === '/.well-known/apple-app-site-association' || url.pathname === '/apple-app-site-association') {
+        return json(appleAppSiteAssociation(env));
+      }
+      if (url.pathname === '/.well-known/assetlinks.json') return json(assetLinks(env));
       const match = url.pathname.match(/^\/ad\/(\d+)\/?$/);
       const legacyId = url.pathname === '/ad.html' ? url.searchParams.get('id') : null;
       if (match) return adPage(Number(match[1]), request, env);
@@ -28,6 +33,32 @@ export default {
     return env.ASSETS.fetch(request);
   },
 };
+
+function json(data) {
+  return new Response(JSON.stringify(data), {
+    headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=3600' },
+  });
+}
+
+function appleAppSiteAssociation(env) {
+  return {
+    applinks: {
+      details: [{ appIDs: [`${env.APPLE_TEAM_ID}.${env.IOS_BUNDLE_ID}`], components: [{ '/': '/ad/*' }] }],
+    },
+  };
+}
+
+// بصمة شهادة توقيع التطبيق من Google Play (Play Console ← سلامة التطبيق)، أكثر من بصمة بفاصلة
+function assetLinks(env) {
+  const prints = String(env.ANDROID_SHA256 || '').split(',').map((s) => s.trim()).filter(Boolean);
+  if (!prints.length) return [];
+  return [
+    {
+      relation: ['delegate_permission/common.handle_all_urls'],
+      target: { namespace: 'android_app', package_name: env.ANDROID_PACKAGE, sha256_cert_fingerprints: prints },
+    },
+  ];
+}
 
 async function rest(env, path) {
   const res = await fetch(`${env.SUPABASE_URL}/rest/v1/${path}`, {

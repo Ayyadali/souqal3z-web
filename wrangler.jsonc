@@ -8,12 +8,16 @@
     "binding": "ASSETS",
     "html_handling": "none",
     "not_found_handling": "404-page",
-    "run_worker_first": ["/", "/ad/*", "/ad.html", "/sitemap-ads.xml"]
+    "run_worker_first": ["/", "/ad/*", "/ad.html", "/sitemap-ads.xml", "/.well-known/*", "/apple-app-site-association"]
   },
   "vars": {
     "SUPABASE_URL": "https://avbqkguasnpxbcmuqdtu.supabase.co",
     "SUPABASE_KEY": "sb_publishable_ICYdofxqMVO3qX7xTFs04w_6_vg0HQZ",
     "APP_SCHEME": "souqal3z",
-    "ANDROID_PACKAGE": "com.souqal3z.app"
+    "ANDROID_PACKAGE": "com.souqal3z.app",
+    "APPLE_TEAM_ID": "3Z57X5CKW3",
+    "IOS_BUNDLE_ID": "com.souqal3z.app",
+    // بصمة SHA-256 لشهادة توقيع التطبيق من Play Console ← Test and release ← App integrity ← App signing
+    "ANDROID_SHA256": ""
   }
 }
