@@ -18,6 +18,6 @@
     "APPLE_TEAM_ID": "3Z57X5CKW3",
     "IOS_BUNDLE_ID": "com.souqal3z.app",
     // بصمة SHA-256 لشهادة توقيع التطبيق من Play Console ← Test and release ← App integrity ← App signing
-    "ANDROID_SHA256": ""
+    "ANDROID_SHA256": "16:5A:ED:B5:6E:F2:EB:F5:97:2C:CF:E5:4F:F9:C7:0E:4A:60:D2:2D:14:A3:EA:66:D6:E7:EE:8E:02:08:89:04"
   }
 }
