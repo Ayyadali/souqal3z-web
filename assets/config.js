@@ -41,33 +41,35 @@ window.souqFillContact = async function () {
   }
 };
 
-// أزرار التحميل: كل عنصر يحمل data-store يصير زرّين — «حمّل للآيفون» (App Store) و«أندرويد قريبًا»
-// وبعد نشر Google Play (storeLive) يصير الثاني «حمّل للأندرويد»
+// أزرار التحميل: كل عنصر يحمل data-store يصير شارتين بشكل المتاجر المعروف (App Store و Google Play)
+// Google Play تظهر «قريبًا» لين نخلي storeLive = true
 window.souqStoreButtons = function () {
-  var ICON_DL = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>';
-  var ICON_SOON = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+  var APPLE = '<svg class="sb-logo" viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>';
+  var PLAY = '<svg class="sb-logo" viewBox="0 0 24 24" aria-hidden="true">' +
+    '<path fill="#00A0FF" d="M1.337.924a1.486 1.486 0 0 0-.112.568v21.017c0 .217.045.419.124.6l11.155-11.087L1.337.924z"/>' +
+    '<path fill="#00F076" d="M13.544 10.989l3.258-3.238L3.45.195a1.466 1.466 0 0 0-.946-.179l11.04 10.973z"/>' +
+    '<path fill="#FFD400" d="M22.018 13.298l-3.919 2.218-3.515-3.493 3.543-3.521 3.891 2.202a1.49 1.49 0 0 1 0 2.594z"/>' +
+    '<path fill="#FF3A44" d="M13.544 13.056l-11 10.933c.298.036.612-.016.906-.183l13.324-7.54-3.23-3.21z"/></svg>';
+  function badge(small, logo, top, name, href, label) {
+    var a = document.createElement('a');
+    a.className = 'store-badge' + (small ? ' sm' : '');
+    a.dir = 'ltr';
+    a.dataset.storeDone = '1';
+    a.setAttribute('aria-label', label);
+    if (href) { a.href = href; a.target = '_blank'; a.rel = 'noopener'; }
+    else { a.setAttribute('aria-disabled', 'true'); a.classList.add('soon'); }
+    a.innerHTML = logo + '<span class="sb-text"><span class="sb-top">' + top + '</span><span class="sb-name">' + name + '</span></span>' +
+      (href ? '' : '<span class="sb-soon" dir="rtl">قريبًا</span>');
+    return a;
+  }
   document.querySelectorAll('[data-store]').forEach(function (a) {
     if (a.dataset.storeDone) return;
+    var small = a.classList.contains('sm');
     var pair = document.createElement('span');
     pair.className = 'store-pair';
-    var ios = a.cloneNode(false);
-    ios.removeAttribute('data-store');
-    ios.dataset.storeDone = '1';
-    ios.href = window.SOUQ.iosUrl; ios.target = '_blank'; ios.rel = 'noopener';
-    ios.innerHTML = ICON_DL + '<span>حمّل للآيفون</span>';
-    var android = a.cloneNode(false);
-    android.removeAttribute('data-store');
-    android.dataset.storeDone = '1';
-    if (window.SOUQ.storeLive) {
-      android.href = window.SOUQ.storeUrl; android.target = '_blank'; android.rel = 'noopener';
-      android.innerHTML = ICON_DL + '<span>حمّل للأندرويد</span>';
-    } else {
-      android.removeAttribute('href');
-      android.setAttribute('aria-disabled', 'true');
-      android.classList.add('soon');
-      android.innerHTML = ICON_SOON + '<span>أندرويد قريبًا</span>';
-    }
-    pair.appendChild(ios); pair.appendChild(android);
+    pair.appendChild(badge(small, APPLE, 'Download on the', 'App Store', window.SOUQ.iosUrl, 'حمّل سوق العز من App Store للآيفون'));
+    pair.appendChild(badge(small, PLAY, 'GET IT ON', 'Google Play', window.SOUQ.storeLive ? window.SOUQ.storeUrl : null,
+      window.SOUQ.storeLive ? 'حمّل سوق العز من Google Play للأندرويد' : 'نسخة الأندرويد قريبًا على Google Play'));
     a.replaceWith(pair);
   });
 };

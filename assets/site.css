@@ -299,13 +299,31 @@ p { margin: 0; }
 .crumbs + .ad { padding-top: 16px; }
 
 /* زرّا التحميل: آيفون + أندرويد */
-.store-pair { display: inline-flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-.store-pair .btn { gap: 8px; }
-.topbar .store-pair { margin-inline-start: auto; flex-wrap: nowrap; }
-.topbar .store-pair .btn { margin-inline-start: 0; }
-.btn.soon { background: transparent; border: 1.5px dashed currentColor; opacity: .75; }
-.btn.gold.soon { color: var(--gold); }
-.btn.green.soon { color: var(--green); }
+.store-pair { display: inline-flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center; }
+.topbar .store-pair { margin-inline-start: auto; flex-wrap: nowrap; gap: 8px; }
+.store-badge {
+  position: relative; display: inline-flex; align-items: center; gap: 9px;
+  height: 54px; padding: 0 18px 0 14px; border-radius: 12px;
+  background: #000; color: #fff; text-decoration: none;
+  border: 1px solid #8A8A8A; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.store-badge:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,.25); }
+.store-badge .sb-logo { width: 28px; height: 28px; flex: none; }
+.store-badge .sb-text { display: flex; flex-direction: column; line-height: 1.05; text-align: left; }
+.store-badge .sb-top { font-size: 11px; font-weight: 500; letter-spacing: .2px; }
+.store-badge .sb-name { font-size: 21px; font-weight: 600; letter-spacing: -.3px; }
+.store-badge.sm { height: 42px; padding: 0 12px 0 10px; gap: 7px; border-radius: 10px; }
+.store-badge.sm .sb-logo { width: 21px; height: 21px; }
+.store-badge.sm .sb-top { font-size: 8.5px; }
+.store-badge.sm .sb-name { font-size: 15.5px; }
+.store-badge.soon { cursor: default; }
+.store-badge.soon .sb-logo, .store-badge.soon .sb-text { opacity: .5; }
+.store-badge.soon:hover { transform: none; box-shadow: none; }
+.store-badge .sb-soon {
+  position: absolute; top: -9px; right: -6px; background: var(--gold); color: var(--night);
+  font-family: var(--body); font-size: 11px; font-weight: 700; padding: 1px 8px; border-radius: 999px;
+}
 @media (max-width: 560px) { .topbar .store-pair { display: none; } }
 
 /* مزاد في صفحة الإعلان */
@@ -318,3 +336,4 @@ p { margin: 0; }
 .auction-label { font-size: 13px; color: var(--ink-soft); }
 .auction-box .ad-price { margin: 2px 0; }
 .auction-meta { font-size: 13px; color: var(--ink-soft); }
+.hero .store-pair { justify-content: flex-start; }
